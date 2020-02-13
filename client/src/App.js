@@ -1,15 +1,15 @@
 import React from "react";
-import "./App.css";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Navbar from "./components/AppNavbar";
-import ItemList from "./components/ItemList";
-import "bootstrap/dist/css/bootstrap.min.css";
+import MyItems from "./pages/MyItems/MyItems";
 
 function App() {
   return (
-    <div className="App">
+    <Router>
       <Navbar />
-      <ItemList />
-    </div>
+      <Route path="/" exact />
+      <Route path="/myItems" component={MyItems} />
+    </Router>
   );
 }
 

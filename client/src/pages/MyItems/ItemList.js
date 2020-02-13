@@ -1,18 +1,22 @@
 import React from "react";
-import { CardDeck } from "reactstrap";
+import { Container, CardDeck } from "reactstrap";
 import Item from "./Item";
 
 const ItemList = props => {
-  let items = [1, 2, 3, 4, 5, 6];
+  let items = [1, 2, 3, 4];
 
   return (
-    <div className="container-fluid" style={{ paddingTop: "10px" }}>
+    <Container
+      className="themed-container"
+      fluid={true}
+      style={{ paddingTop: "10px" }}
+    >
       <CardDeck>
         {items.map(num => (
           <Item />
         ))}
       </CardDeck>
-    </div>
+    </Container>
   );
 };
 

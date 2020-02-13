@@ -9,7 +9,7 @@ import {
   NavLink
 } from "reactstrap";
 
-const Example = props => {
+const AppNavBar = props => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
@@ -22,16 +22,13 @@ const Example = props => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink>Home</NavLink>
+              <NavLink href="/">Home</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink>My Offers</NavLink>
+              <NavLink href="/myOffers">My Offers</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink>My Deals</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink>Profile</NavLink>
+              <NavLink href="/myItems">My Items</NavLink>
             </NavItem>
           </Nav>
         </Collapse>
@@ -40,4 +37,4 @@ const Example = props => {
   );
 };
 
-export default Example;
+export default AppNavBar;
