@@ -1,12 +1,12 @@
 import React from "react";
 import ItemList from "./ItemList";
 
-function MyItems() {
+const MyItems = () => {
   return (
     <div>
       <ItemList />
     </div>
   );
-}
+};
 
 export default MyItems;

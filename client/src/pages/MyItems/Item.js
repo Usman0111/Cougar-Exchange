@@ -10,7 +10,7 @@ import {
 
 const Item = props => {
   return (
-    <Card>
+    <Card style={{ marginTop: "10px" }}>
       <CardImg
         top
         width="100%"
