@@ -6,7 +6,8 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  Container
 } from "reactstrap";
 
 const AppNavBar = props => {
@@ -15,8 +16,8 @@ const AppNavBar = props => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <div>
-      <Navbar color="dark" dark light expand="md">
+    <Navbar color="dark" dark light expand="md">
+      <Container className="themed-container">
         <NavbarBrand href="/">Cougar Exchange</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
@@ -32,8 +33,8 @@ const AppNavBar = props => {
             </NavItem>
           </Nav>
         </Collapse>
-      </Navbar>
-    </div>
+      </Container>
+    </Navbar>
   );
 };
 

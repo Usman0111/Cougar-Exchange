@@ -7,52 +7,105 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
+  Form,
+  FormGroup,
+  Label,
+  Input
 } from "reactstrap";
+import uuid from "uuid";
 import Item from "./Item";
 
 const ItemList = props => {
-  const [items, setItems] = useState([1, 1, 1, 1, 1, 1]);
+  const [items, setItems] = useState([
+    {
+      id: uuid.v4(),
+      name: "Name",
+      description: "Lorem ipsum dolor sit amet, consectetur"
+    }
+  ]);
+
+  const [newItemName, setNewItemName] = useState("");
+  const [newItemDescription, setNewItemNameDescription] = useState("");
 
   const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);
 
-  const addItem = () => {
-    setItems([...items, 1]);
+  const addNewItem = event => {
+    setItems([
+      ...items,
+      { id: uuid.v4(), name: newItemName, description: newItemDescription }
+    ]);
+    setNewItemName("");
+    setNewItemNameDescription("");
+    toggle();
+    event.preventDefault();
+  };
+
+  const deleteItem = id => {
+    setItems(items.filter(item => item.id !== id));
+  };
+
+  const modifyItem = newItem => {
+    setItems(items.map(item => (item.id === newItem.id ? newItem : item)));
   };
 
   return (
-    <Container className="themed-container" fluid={true}>
+    <Container className="themed-container" fluid={false}>
       <Button block style={{ marginTop: "10px" }} onClick={toggle}>
         Add New Item
       </Button>
       <Row>
-        {items.map(num => (
-          <Col xs="6" sm="3">
-            <Item />
+        {items.map(item => (
+          <Col key={item.id} xs="12" sm="4" md="3">
+            <Item item={item} deleteItem={deleteItem} modifyItem={modifyItem} />
           </Col>
         ))}
       </Row>
+      {/*Modal to Add New Items*/}
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+        <ModalHeader toggle={toggle}>Enter New Item</ModalHeader>
         <ModalBody>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          <Form onSubmit={addNewItem}>
+            <FormGroup>
+              <Label for="name">Name</Label>
+              <Input
+                type="text"
+                value={newItemName}
+                name="name"
+                id="name"
+                placeholder="Enter name"
+                onChange={event => {
+                  setNewItemName(event.target.value);
+                }}
+                required
+              ></Input>
+            </FormGroup>
+            <FormGroup>
+              <Label for="description">Description</Label>
+              <Input
+                type="textarea"
+                value={newItemDescription}
+                name="description"
+                id="description"
+                placeholder="Enter description"
+                onChange={event => {
+                  setNewItemNameDescription(event.target.value);
+                }}
+                required
+              ></Input>
+            </FormGroup>
+            <ModalFooter>
+              <Button type="submit" color="primary">
+                Add Item
+              </Button>{" "}
+              <Button color="secondary" onClick={toggle}>
+                Cancel
+              </Button>
+            </ModalFooter>
+          </Form>
         </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={addItem}>
-            Do Something
-          </Button>{" "}
-          <Button color="secondary" onClick={toggle}>
-            Cancel
-          </Button>
-        </ModalFooter>
       </Modal>
     </Container>
   );
