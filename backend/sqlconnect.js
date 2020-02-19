@@ -15,6 +15,11 @@ connection.query("CREATE DATABASE Exchange;", (err) =>{
 	console.log("DATABASE CREATED")
 
 })
+connection.query("CREATE TABLE Exchange.Items (IDItem int, IDUser int, ItemName varchar(255), ItemDesc varchar(255));", (err) =>{
+	if (err) throw err;
+	console.log("TABLE CREATED")
+
+})
 
 connection.query("CREATE TABLE Exchange.Users (IDUser int, UserName varchar(255), Password varchar(255));", (err) =>{
 	if (err) throw err;
