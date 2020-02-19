@@ -9,7 +9,22 @@ connection.connect((err) => {
     console.log("Connected!")
 })
 
-connection.query("CREATE DATABASE people", (err) => {
-    if (err) throw err;
-    console.log("DB created")
+
+connection.query("CREATE DATABASE Exchange;", (err) =>{
+	if (err) throw err;
+	console.log("DATABASE CREATED")
+
+})
+
+connection.query("CREATE TABLE Exchange.Users (IDUser int, UserName varchar(255), Password varchar(255));", (err) =>{
+	if (err) throw err;
+	console.log("TABLE CREATED")
+
+})
+
+
+connection.query("CREATE TABLE Exchange.Offers (IDOffer int, Item1ID int, Item2ID int, Status varchar(255));", (err) =>{
+	if (err) throw err;
+	console.log("TABLE CREATED")
+
 })
