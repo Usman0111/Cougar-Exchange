@@ -4,10 +4,10 @@ import { InputGroup, InputGroupAddon, Button, Input } from "reactstrap";
 const Search = () => {
   return (
     <InputGroup style={{ marginTop: "10px" }}>
-      <InputGroupAddon>
+      <Input />
+      <InputGroupAddon addonType="append">
         <Button>Search</Button>
       </InputGroupAddon>
-      <Input />
     </InputGroup>
   );
 };
