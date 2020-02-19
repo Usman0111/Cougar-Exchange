@@ -52,7 +52,7 @@ const ItemList = props => {
 
   return (
     <div>
-      <Button block style={{ marginTop: "10px" }} onClick={toggle}>
+      <Button style={{ marginTop: "10px" }} onClick={toggle}>
         Add New Item
       </Button>
       <Row>
