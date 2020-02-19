@@ -1,13 +1,13 @@
 import React from "react";
-import ItemList from "./ItemList";
+import Search from "./Search";
 import { Container } from "reactstrap";
 
-const MyItems = () => {
+const Home = () => {
   return (
     <Container>
-      <ItemList />
+      <Search />
     </Container>
   );
 };
 
-export default MyItems;
+export default Home;

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Container,
   Row,
   Col,
   Button,
@@ -52,7 +51,7 @@ const ItemList = props => {
   };
 
   return (
-    <Container className="themed-container" fluid={false}>
+    <div>
       <Button block style={{ marginTop: "10px" }} onClick={toggle}>
         Add New Item
       </Button>
@@ -107,7 +106,7 @@ const ItemList = props => {
           </Form>
         </ModalBody>
       </Modal>
-    </Container>
+    </div>
   );
 };
 
