@@ -1,10 +1,14 @@
-var mysql = require("mysql");
-var connection = mysql.createConnection({
-  host: "us-cdbr-iron-east-04.cleardb.net",
-  user: "b279f71b1f16c6",
-  password: "59cd7d19"
+const mysql = require("mysql");
+
+const db = mysql.createConnection({
+  // host: "bcuvaa603ia6qja1utcx-mysql.services.clever-cloud.com",
+  // user: "uhihayslnl9k5tfu",
+  // password: "Oa1zgUk4whPeaCYld738",
+  // database: "bcuvaa603ia6qja1utcx"
+  // host: "localhost",
+  // user: "root",
+  // password: "root",
+  // database: "exchange"
 });
-connection.connect(err => {
-  if (err) throw err;
-  console.log("Connected!");
-});
+
+module.exports = db;
