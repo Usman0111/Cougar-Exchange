@@ -10,23 +10,36 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
+  FormGroup,
+  Label,
+  Input
 } from "reactstrap";
+import uuid from "uuid";
 
 const Item = props => {
   const { name, description } = props.item;
+  const { selectedItem, setSelectedItem } = useState("");
+
+  //temporary hard coded items
+  const [items] = useState([
+    {
+      id: uuid.v4(),
+      name: "User Item 1",
+      description: "Lorem ipsum dolor sit amet, consectetur"
+    },
+    {
+      id: uuid.v4(),
+      name: "User Item 2",
+      description: "Lorem ipsum dolor sit amet, consectetur"
+    }
+  ]);
 
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const toggleDropDown = () => setDropdownOpen(prevState => !prevState);
-
-  const handleModify = event => {
-    console.log("Hey");
+  const handleSelect = event => {
+    //setSelectedItem();
+    console.log("Hello");
     event.preventDefault();
   };
 
@@ -46,23 +59,28 @@ const Item = props => {
         </Button>
       </CardBody>
 
-      {/* Modal to Make Offer*/}
+      {/* Modal to Select Item*/}
       <Modal isOpen={modal} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>Make an Offer for {name}</ModalHeader>
+        <ModalHeader toggle={toggleModal}>
+          Making an Offer for {name}
+        </ModalHeader>
         <ModalBody>
-          <Dropdown
-            isOpen={dropdownOpen}
-            toggle={toggleDropDown}
-            style={{ marginBottom: "20px" }}
-          >
-            <DropdownToggle caret>Select an Item to Offer</DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem onClick={handleModify}>Something</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          <FormGroup>
+            <Input
+              type="select"
+              name="select"
+              id="select"
+              onChange={handleSelect}
+            >
+              <option>Select an Item to Offer</option>
+              {items.map(item => (
+                <option key={item.id}>{item.name}</option>
+              ))}
+            </Input>
+          </FormGroup>
           <ModalFooter>
             <Button type="submit" color="primary">
-              Offer
+              Next
             </Button>{" "}
             <Button color="secondary" onClick={toggleModal}>
               Cancel
