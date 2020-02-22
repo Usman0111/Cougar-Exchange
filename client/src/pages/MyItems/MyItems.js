@@ -1,11 +1,11 @@
 import React from "react";
-import ItemList from "./ItemList";
+import UserItemList from "./UserItemList";
 import { Container } from "reactstrap";
 
 const MyItems = () => {
   return (
     <Container>
-      <ItemList />
+      <UserItemList />
     </Container>
   );
 };
