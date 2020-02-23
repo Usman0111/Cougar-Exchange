@@ -1,83 +1,47 @@
-import React from 'react';
-import { Toast, ToastBody, ToastHeader, Spinner } from 'reactstrap';
+import React, { useState } from 'react';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, Container } from 'reactstrap';
+import classnames from 'classnames';
+import Offercard from './offercard.js';
+import Items from '../MyItems/UserItemList';
+import OfferContainer from './offersContainer.js';
 
 const Example = (props) => {
+  const [activeTab, setActiveTab] = useState('1');
+
+  const toggle = tab => {
+    if(activeTab !== tab) setActiveTab(tab);
+  }
+
   return (
     <div>
-      <Toast>
-        <ToastHeader icon="primary">
-          Reactstrap
-        </ToastHeader>
-        <ToastBody>
-          This is a toast with a primary icon — check it out!
-        </ToastBody>
-      </Toast>
-      <Toast>
-        <ToastHeader icon="secondary">
-          Reactstrap
-        </ToastHeader>
-        <ToastBody>
-          This is a toast with a secondary icon — check it out!
-        </ToastBody>
-      </Toast>
-      <Toast>
-        <ToastHeader icon="success">
-          Reactstrap
-        </ToastHeader>
-        <ToastBody>
-          This is a toast with a success icon — check it out!
-        </ToastBody>
-      </Toast>
-      <Toast>
-        <ToastHeader icon="danger">
-          Reactstrap
-        </ToastHeader>
-        <ToastBody>
-          This is a toast with a danger icon — check it out!
-        </ToastBody>
-      </Toast>
-      <Toast>
-        <ToastHeader icon="warning">
-          Reactstrap
-        </ToastHeader>
-        <ToastBody>
-          This is a toast with a warning icon — check it out!
-        </ToastBody>
-      </Toast>
-      <Toast>
-        <ToastHeader icon="info">
-          Reactstrap
-        </ToastHeader>
-        <ToastBody>
-          This is a toast with an info icon — check it out!
-        </ToastBody>
-      </Toast>
-      <Toast>
-        <ToastHeader icon="light">
-          Reactstrap
-        </ToastHeader>
-        <ToastBody>
-          This is a toast with a light icon — check it out!
-        </ToastBody>
-      </Toast>
-      <Toast>
-        <ToastHeader icon="dark">
-          Reactstrap
-        </ToastHeader>
-        <ToastBody>
-          This is a toast with a dark icon — check it out!
-        </ToastBody>
-      </Toast>
-      <Toast>
-        <ToastHeader icon={<Spinner size="sm" />}>
-          Reactstrap
-        </ToastHeader>
-        <ToastBody>
-          This is a toast with a custom icon — check it out!
-        </ToastBody>
-      </Toast>
+      <Nav tabs>
+        <NavItem>
+          <NavLink
+            onClick={() => { toggle('1'); }}
+          >
+            Your Items
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            onClick={() => { toggle('2'); }}
+          >
+            Others' Items
+          </NavLink>
+        </NavItem>
+      </Nav>
+      <TabContent activeTab={activeTab}>
+        <TabPane tabId="1">
+		<Row xs="2">
+		<Container><OfferContainer /></Container>
+		</Row>
+        </TabPane>
+        <TabPane tabId="2">
+		<OfferContainer />
+        </TabPane>
+      </TabContent>
     </div>
   );
-};
+}
 
 export default Example;
