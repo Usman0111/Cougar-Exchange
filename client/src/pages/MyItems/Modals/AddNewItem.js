@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import {
-  Row,
-  Col,
   Button,
   Modal,
   ModalHeader,
@@ -13,56 +11,30 @@ import {
   Input
 } from "reactstrap";
 import uuid from "uuid";
-import Item from "./Item";
-
-const ItemList = props => {
-  const [items, setItems] = useState([
-    {
-      id: uuid.v4(),
-      name: "Name",
-      description: "Lorem ipsum dolor sit amet, consectetur"
-    }
-  ]);
-
+const AddNewItem = props => {
   const [newItemName, setNewItemName] = useState("");
   const [newItemDescription, setNewItemNameDescription] = useState("");
 
   const [modal, setModal] = useState(false);
 
-  const toggle = () => setModal(!modal);
-
   const addNewItem = event => {
-    setItems([
-      ...items,
-      { id: uuid.v4(), name: newItemName, description: newItemDescription }
-    ]);
+    props.addItem({
+      id: uuid.v4(),
+      name: newItemName,
+      description: newItemDescription
+    });
     setNewItemName("");
     setNewItemNameDescription("");
     toggle();
     event.preventDefault();
   };
 
-  const deleteItem = id => {
-    setItems(items.filter(item => item.id !== id));
-  };
-
-  const modifyItem = newItem => {
-    setItems(items.map(item => (item.id === newItem.id ? newItem : item)));
-  };
-
+  const toggle = () => setModal(!modal);
   return (
     <div>
       <Button style={{ marginTop: "10px" }} onClick={toggle}>
         Add New Item
       </Button>
-      <Row>
-        {items.map(item => (
-          <Col key={item.id} xs="12" sm="4" md="3">
-            <Item item={item} deleteItem={deleteItem} modifyItem={modifyItem} />
-          </Col>
-        ))}
-      </Row>
-      {/*Modal to Add New Items*/}
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Enter New Item</ModalHeader>
         <ModalBody>
@@ -109,4 +81,5 @@ const ItemList = props => {
     </div>
   );
 };
-export default ItemList;
+
+export default AddNewItem;

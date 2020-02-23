@@ -12,6 +12,21 @@ const ItemList = props => {
     }
   ]);
 
+  // const [UserItems] = useState([
+  //   {
+  //     id: uuid.v4(),
+  //     name: "User Item 1",
+  //     description: "Lorem ipsum dolor sit amet, consectetur"
+  //   },
+  //   {
+  //     id: uuid.v4(),
+  //     name: "User Item 2",
+  //     description: "Lorem ipsum dolor sit amet, consectetur"
+  //   }
+  // ]);
+
+  //add hook for offers
+
   return (
     <div>
       <Row>
