@@ -1,11 +1,14 @@
 import React from "react";
 import UserItemList from "./UserItemList";
 import { Container } from "reactstrap";
+import UserItemContextProvider from "../../contexts/UserItemContext";
 
 const MyItems = () => {
   return (
     <Container>
-      <UserItemList />
+      <UserItemContextProvider>
+        <UserItemList />
+      </UserItemContextProvider>
     </Container>
   );
 };

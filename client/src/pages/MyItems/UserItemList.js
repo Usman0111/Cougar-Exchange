@@ -1,29 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Row, Col } from "reactstrap";
-import uuid from "uuid";
 import UserItem from "./UserItem";
 import AddNewItem from "./Modals/AddNewItem";
+import { UserItemContext } from "../../contexts/UserItemContext";
 
 const UserItemList = props => {
-  const [items, setItems] = useState([
-    {
-      id: uuid.v4(),
-      name: "Name",
-      description: "Lorem ipsum dolor sit amet, consectetur"
-    }
-  ]);
-
-  const addItem = item => {
-    setItems([...items, item]);
-  };
-
-  const deleteItem = id => {
-    setItems(items.filter(item => item.id !== id));
-  };
-
-  const modifyItem = newItem => {
-    setItems(items.map(item => (item.id === newItem.id ? newItem : item)));
-  };
+  const { items, addItem, deleteItem, modifyItem } = useContext(
+    UserItemContext
+  );
 
   return (
     <div>
