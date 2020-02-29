@@ -6,7 +6,7 @@ const Item = props => {
   const { name } = props.item;
 
   return (
-    <Card className="h-100" style={{ marginTop: "10px" }}>
+    <Card className="h-100">
       <CardImg
         top
         width="100%"

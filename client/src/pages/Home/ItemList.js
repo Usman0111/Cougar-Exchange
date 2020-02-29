@@ -9,6 +9,16 @@ const ItemList = props => {
       id: uuid.v4(),
       name: "Name",
       description: "Lorem ipsum dolor sit amet, consectetur"
+    },
+    {
+      id: uuid.v4(),
+      name: "Name",
+      description: "Lorem ipsum dolor sit amet, consectetur"
+    },
+    {
+      id: uuid.v4(),
+      name: "Name",
+      description: "Lorem ipsum dolor sit amet, consectetur"
     }
   ]);
 
@@ -31,7 +41,7 @@ const ItemList = props => {
     <div>
       <Row>
         {items.map(item => (
-          <Col key={item.id} xs="12" sm="4" md="3">
+          <Col className="mt-2" key={item.id} xs="12" sm="4" md="3">
             <Item item={item} />
           </Col>
         ))}

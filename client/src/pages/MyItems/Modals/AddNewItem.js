@@ -10,19 +10,23 @@ import {
   Label,
   Input
 } from "reactstrap";
-import uuid from "uuid";
+import { useDispatch } from "react-redux";
+import { addItem } from "../../../actions/userItemsActions";
+
 const AddNewItem = props => {
   const [newItemName, setNewItemName] = useState("");
   const [newItemDescription, setNewItemNameDescription] = useState("");
 
   const [modal, setModal] = useState(false);
+  const dispatch = useDispatch();
 
   const addNewItem = event => {
-    props.addItem({
-      id: uuid.v4(),
-      name: newItemName,
-      description: newItemDescription
-    });
+    dispatch(
+      addItem({
+        name: newItemName,
+        description: newItemDescription
+      })
+    );
     setNewItemName("");
     setNewItemNameDescription("");
     toggle();

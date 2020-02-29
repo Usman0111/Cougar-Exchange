@@ -10,6 +10,8 @@ import {
   Label,
   Input
 } from "reactstrap";
+import { modifyItem } from "../../../actions/userItemsActions";
+import { useDispatch } from "react-redux";
 
 const ModifyItem = props => {
   const { id, name, description } = props.item;
@@ -17,8 +19,11 @@ const ModifyItem = props => {
   const [newDescription, changeDescription] = useState(description);
 
   const [modal, setModal] = useState(false);
+
+  const dispatch = useDispatch();
+
   const handleModify = event => {
-    props.modifyItem({ id, name: newName, description: newDescription });
+    dispatch(modifyItem({ id, name: newName, description: newDescription }));
     toggle();
     event.preventDefault();
   };
