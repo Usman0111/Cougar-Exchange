@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Item from "../../../components/Item";
 import {
   Button,
   Modal,
@@ -6,46 +7,92 @@ import {
   ModalBody,
   ModalFooter,
   FormGroup,
-  Input
+  Input,
+  Row,
+  Col,
+  Label
 } from "reactstrap";
-//import uuid from "uuid";
+import { useSelector, useDispatch } from "react-redux";
+import { makeOffer } from "../../../actions/offersActions";
 
-const MakeOffer = () => {
+const MakeOffer = props => {
+  const userItems = useSelector(state => state.userItems.items);
+  const dispatch = useDispatch();
+
+  const [selected, setSelected] = useState(false);
+  const toggleSelected = () => {
+    setSelected(!selected);
+  };
+  const [selectedItem, setSelectedItem] = useState();
+
   const [modal, setModal] = useState(false);
-  const toggleModal = () => setModal(!modal);
-  //   const { selectedItem, setSelectedItem } = useState("");
-
-  const handleSelect = event => {
-    //setSelectedItem();
-    console.log("Hello");
-    event.preventDefault();
+  const toggleModal = () => {
+    setModal(!modal);
+    setSelected(false);
   };
 
+  const handleSelect = e => {
+    const id = e.target.value;
+    setSelectedItem(...userItems.filter(item => item.id === id));
+  };
+
+  const handleConfirm = () => {
+    dispatch(
+      makeOffer({
+        itemOfferd: selectedItem.id,
+        itemRequested: props.item.id,
+        status: "pending"
+      })
+    );
+    toggleModal();
+  };
+
+  const button = selected ? (
+    <>
+      <Button onClick={toggleSelected} color="primary">
+        Back
+      </Button>
+      <Button onClick={handleConfirm} color="primary">
+        Confirm
+      </Button>
+    </>
+  ) : (
+    <Button onClick={toggleSelected} color="primary">
+      Next
+    </Button>
+  );
+
   return (
-    <Button className="mt-auto" onClick={toggleModal} block>
+    <Button className="mt-1" onClick={toggleModal} block>
       Make Offer
       <Modal isOpen={modal} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>
-          {/* Making an Offer for {name} */}
-        </ModalHeader>
+        <ModalHeader toggle={toggleModal}>Make your offer</ModalHeader>
         <ModalBody>
-          <FormGroup>
-            <Input
-              type="select"
-              name="select"
-              id="select"
-              onChange={handleSelect}
-            >
-              {/* <option>Select an Item to Offer</option>
-              {items.map(item => (
-                <option key={item.id}>{item.name}</option>
-              ))} */}
-            </Input>
-          </FormGroup>
+          {selected ? (
+            <Row className="mb-3">
+              <Col xs="6">
+                <Label>Your Item</Label>
+                <Item item={selectedItem} />
+              </Col>
+              <Col xs="6">
+                <Label>Exchange With</Label>
+                <Item item={props.item} />
+              </Col>
+            </Row>
+          ) : (
+            <FormGroup>
+              <Input type="select" onChange={handleSelect}>
+                <option>Select an Item to Offer</option>
+                {userItems.map(item => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </Input>
+            </FormGroup>
+          )}
           <ModalFooter>
-            <Button type="submit" color="primary">
-              Next
-            </Button>{" "}
+            {button}{" "}
             <Button color="secondary" onClick={toggleModal}>
               Cancel
             </Button>

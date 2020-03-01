@@ -30,7 +30,7 @@ const ModifyItem = props => {
 
   const toggle = () => setModal(!modal);
   return (
-    <Button className="mt-auto" onClick={toggle} block>
+    <Button className="mt-1" onClick={toggle} block>
       Modify
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Make Changes</ModalHeader>

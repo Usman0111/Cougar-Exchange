@@ -1,12 +1,11 @@
 import React from "react";
 import { Card, CardImg, CardSubtitle, CardBody } from "reactstrap";
-import MakeOffer from "./Modals/MakeOffer";
 
 const Item = props => {
   const { name } = props.item;
 
   return (
-    <Card className="h-100">
+    <Card>
       <CardImg
         top
         width="100%"
@@ -16,7 +15,6 @@ const Item = props => {
       <CardBody className="d-flex flex-column">
         <CardSubtitle>{name}</CardSubtitle>
         {/* <CardText>{description}</CardText> */}
-        <MakeOffer item={props.item} />
       </CardBody>
     </Card>
   );

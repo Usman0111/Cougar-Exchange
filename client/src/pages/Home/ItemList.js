@@ -1,47 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Row, Col } from "reactstrap";
-import uuid from "uuid";
+import { useDispatch, useSelector } from "react-redux";
 import Item from "./Item";
+import { getAllItems } from "../../actions/allItemsActions";
 
 const ItemList = props => {
-  const [items] = useState([
-    {
-      id: uuid.v4(),
-      name: "Name",
-      description: "Lorem ipsum dolor sit amet, consectetur"
-    },
-    {
-      id: uuid.v4(),
-      name: "Name",
-      description: "Lorem ipsum dolor sit amet, consectetur"
-    },
-    {
-      id: uuid.v4(),
-      name: "Name",
-      description: "Lorem ipsum dolor sit amet, consectetur"
-    }
-  ]);
+  const { items } = useSelector(state => state.allItems);
+  const dispatch = useDispatch();
 
-  // const [UserItems] = useState([
-  //   {
-  //     id: uuid.v4(),
-  //     name: "User Item 1",
-  //     description: "Lorem ipsum dolor sit amet, consectetur"
-  //   },
-  //   {
-  //     id: uuid.v4(),
-  //     name: "User Item 2",
-  //     description: "Lorem ipsum dolor sit amet, consectetur"
-  //   }
-  // ]);
-
-  //add hook for offers
+  useEffect(() => dispatch(getAllItems()), [dispatch]);
 
   return (
     <div>
       <Row>
         {items.map(item => (
-          <Col className="mt-2" key={item.id} xs="12" sm="4" md="3">
+          <Col className="mt-3" key={item.id} xs="6" sm="4" md="3">
             <Item item={item} />
           </Col>
         ))}

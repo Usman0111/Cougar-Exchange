@@ -10,7 +10,12 @@ const initialState = {
   items: [
     {
       id: uuid.v4(),
-      name: "Name from Redux",
+      name: "User Item 1",
+      description: "Lorem ipsum dolor sit amet, consectetur"
+    },
+    {
+      id: uuid.v4(),
+      name: "User Item 2",
       description: "Lorem ipsum dolor sit amet, consectetur"
     }
   ]
