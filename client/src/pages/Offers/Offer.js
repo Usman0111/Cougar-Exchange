@@ -1,28 +1,58 @@
-import React from "react";
-import { Button, Row, Col } from "reactstrap";
+import React, { useState } from "react";
+import {
+  Row,
+  Col,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from "reactstrap";
 import Item from "../../components/Item";
 
 const Offer = props => {
+  const [dropdownOpen, setOpen] = useState(false);
+  const toggle = () => setOpen(!dropdownOpen);
+
   const buttons = !props.listNum ? (
-    <div>
-      <Button block> Modify Offer</Button> <Button block>Recant Offer</Button>
-    </div>
+    <ButtonDropdown direction="right" isOpen={dropdownOpen} toggle={toggle}>
+      <DropdownToggle className="border-light bg-light text-dark mr-2">
+        <h5 className="m-0 p-0">...</h5>
+      </DropdownToggle>
+      <DropdownMenu>
+        <DropdownItem>Modify Offer</DropdownItem>
+        <DropdownItem>Recant Offer</DropdownItem>
+      </DropdownMenu>
+    </ButtonDropdown>
   ) : (
-    <div>
-      <Button block> Accept Offer</Button> <Button block>Reject Offer</Button>
-    </div>
+    <ButtonDropdown direction="right" isOpen={dropdownOpen} toggle={toggle}>
+      <DropdownToggle className="border-light bg-light text-dark mr-2">
+        <h5 className="m-0 p-0">...</h5>
+      </DropdownToggle>
+      <DropdownMenu>
+        <DropdownItem>Accept Offer</DropdownItem>
+        <DropdownItem>Reject Offer</DropdownItem>
+      </DropdownMenu>
+    </ButtonDropdown>
   );
 
   return (
-    <Row className="border bg-light mt-3">
-      <Col className="p-2">
-        <Item item={props.offer.itemOffered}></Item>
-      </Col>
-      <Col className="p-2">
-        <Item item={props.offer.itemRequested}></Item>
-      </Col>
-      <Col className="p-2">{buttons}</Col>
-    </Row>
+    <div className="border bg-light shadow rounded mt-3 p-1 ">
+      <div className="d-flex justify-content-between">
+        <h5 className="mt-1 pl-2 mb-0">Offered</h5>
+        <h5 className="mt-1 mb-0" style={{ marginLeft: "90px" }}>
+          Requested
+        </h5>
+        <div>{buttons}</div>
+      </div>
+      <Row className="pb-2">
+        <Col className="ml-2">
+          <Item item={props.offer.itemOffered}></Item>
+        </Col>
+        <Col className="mr-2">
+          <Item item={props.offer.itemRequested}></Item>
+        </Col>
+      </Row>
+    </div>
   );
 };
 

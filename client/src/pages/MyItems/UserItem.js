@@ -9,7 +9,7 @@ const UserItem = props => {
   const dispatch = useDispatch();
 
   return (
-    <Card className="h-100 ">
+    <Card className="shadow h-100 ">
       <CardImg
         top
         width="100%"

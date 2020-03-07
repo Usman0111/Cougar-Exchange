@@ -15,6 +15,19 @@ const initialState = {
         name: "Desired Item 1",
         description: "Lorem ipsum dolor sit amet, consectetur"
       }
+    },
+    {
+      offerId: uuid.v4(),
+      itemOffered: {
+        id: uuid.v4(),
+        name: "Offerd Item 1",
+        description: "Lorem ipsum dolor sit amet, consectetur"
+      },
+      itemRequested: {
+        id: uuid.v4(),
+        name: "Desired Item 1",
+        description: "Lorem ipsum dolor sit amet, consectetur"
+      }
     }
   ],
   offersYouGot: [
