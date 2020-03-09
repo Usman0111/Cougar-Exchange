@@ -2,9 +2,21 @@
 using System.Net;
 using MySql.Data;
 using MySql.Data.MySqlClient;
+using System.Text.Json;
+using System.IO;
+using System.Text;
+using System.Threading;
 
 namespace myApp
 {
+    public class resp{
+          public string HI { get; set; }
+    public int TemperatureCelsius { get; set; }
+    public string Summary { get; set; }
+    public string SummaryField;
+
+    public string[] SummaryWords { get; set; }
+    }
 	class Program{
 public static void SimpleListenerExample(string[] prefixes)
 {
@@ -26,7 +38,7 @@ public static void SimpleListenerExample(string[] prefixes)
     }
     listener.Start();
     Console.WriteLine("Listening...");
-    string connStr = "server=localhost;user=root;database=cougarexchange;port=3306;password=root";
+    string connStr = "server=bojtdxm0loxzr8mvsmcx-mysql.services.clever-cloud.com;user=u8gadx0r2scln4go;database=bojtdxm0loxzr8mvsmcx;port=3306;password=IFIA7cTrYOWfWNRdMR5Z";
     MySqlConnection conn = new MySqlConnection(connStr);
     try
     {
@@ -48,21 +60,45 @@ public static void SimpleListenerExample(string[] prefixes)
         Console.WriteLine(ex.ToString());
     }
     conn.Close();
+// using (var stream = new MemoryStream())
+// {
+//     using (var writer = new Utf8JsonWriter(stream))
+//     {
+//         writer.WriteStartObject();
+//         writer.WriteString("date", "JASON IS COOL");
+//         writer.WriteNumber("temp", 42);
+//         writer.WriteEndObject();
+//     }
+
+//     string json = Encoding.UTF8.GetString(stream.ToArray());
+//     Console.WriteLine(json);
+// }
+    resp w = new resp();
+    string json = JsonSerializer.Serialize(w);
+    Console.WriteLine(json);
     Console.WriteLine("Done.");
-    // Note: The GetContext method blocks while waiting for a request. 
-    HttpListenerContext context = listener.GetContext();
+
+    // Construct a response.
+while(true) {
+        ThreadPool.QueueUserWorkItem(Process, listener.GetContext());    
+    }
+    void Process(object c) {
+        // Note: The GetContext method blocks while waiting for a request. 
+        Console.WriteLine("REQUEST MADE");
+        var context = c as HttpListenerContext;
     HttpListenerRequest request = context.Request;
     // Obtain a response object.
     HttpListenerResponse response = context.Response;
-    // Construct a response.
-    string responseString = "<HTML><BODY> Hello world!</BODY></HTML>";
-    byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
+    // process request and make response
+    byte[] buffer = System.Text.Encoding.UTF8.GetBytes(json);
     // Get a response stream and write the response to it.
     response.ContentLength64 = buffer.Length;
     System.IO.Stream output = response.OutputStream;
     output.Write(buffer,0,buffer.Length);
+}
+
     // You must close the output stream.
-    output.Close();
+    // output.Close();
     //listener.Stop();
 }
         static void Main(string[] args){
