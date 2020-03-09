@@ -10,12 +10,12 @@ import {
   Label,
   Input
 } from "reactstrap";
+import uuid from "uuid";
 import { useDispatch } from "react-redux";
-import { addItem } from "../../../actions/userItemsActions";
+import { addItem } from "../../../actions/itemsActions";
 
 const AddNewItem = props => {
   const [newItemName, setNewItemName] = useState("");
-  const [newItemDescription, setNewItemNameDescription] = useState("");
 
   const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
@@ -23,12 +23,11 @@ const AddNewItem = props => {
   const addNewItem = event => {
     dispatch(
       addItem({
-        name: newItemName,
-        description: newItemDescription
+        id: uuid.v4(),
+        name: newItemName
       })
     );
     setNewItemName("");
-    setNewItemNameDescription("");
     toggle();
     event.preventDefault();
   };
@@ -48,25 +47,9 @@ const AddNewItem = props => {
               <Input
                 type="text"
                 value={newItemName}
-                name="name"
-                id="name"
                 placeholder="Enter name"
                 onChange={event => {
                   setNewItemName(event.target.value);
-                }}
-                required
-              ></Input>
-            </FormGroup>
-            <FormGroup>
-              <Label for="description">Description</Label>
-              <Input
-                type="textarea"
-                value={newItemDescription}
-                name="description"
-                id="description"
-                placeholder="Enter description"
-                onChange={event => {
-                  setNewItemNameDescription(event.target.value);
                 }}
                 required
               ></Input>

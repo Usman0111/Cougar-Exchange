@@ -1,12 +1,10 @@
 import { combineReducers } from "redux";
-import userItemsReducer from "./userItemsReducer";
-import allItemsReducer from "./allItemsReducer";
+import itemsReducer from "./itemsReducer";
 import offersReducer from "./offersReducer";
 
 const rootReducer = combineReducers({
-  allItems: allItemsReducer,
-  offers: offersReducer,
-  userItems: userItemsReducer
+  Items: itemsReducer,
+  offers: offersReducer
 });
 
 export default rootReducer;

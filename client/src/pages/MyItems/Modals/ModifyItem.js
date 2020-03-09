@@ -10,7 +10,7 @@ import {
   Label,
   Input
 } from "reactstrap";
-import { modifyItem } from "../../../actions/userItemsActions";
+import { modifyItem } from "../../../actions/itemsActions";
 import { useDispatch } from "react-redux";
 
 const ModifyItem = props => {

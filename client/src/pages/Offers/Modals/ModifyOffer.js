@@ -11,13 +11,16 @@ import {
   Row,
   Col,
   Label,
-  Form
+  Form,
+  DropdownMenu,
+  DropdownItem
 } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { makeOffer } from "../../../actions/offersActions";
+import { recantOffer, modifyOffer } from "../../../actions/offersActions";
 
-const MakeOffer = props => {
+const ModifyOffer = props => {
   const { userItems } = useSelector(state => state.Items);
+  const { itemRequested } = props.offer;
   const dispatch = useDispatch();
 
   const [selectedItem, setSelectedItem] = useState();
@@ -33,27 +36,35 @@ const MakeOffer = props => {
     setSelectedItem(...userItems.filter(item => item.id === id));
   };
 
-  const handleConfirm = e => {
+  const handleRecant = () => {
+    dispatch(recantOffer(props.offer));
+  };
+
+  const handleModify = e => {
     e.preventDefault();
     dispatch(
-      makeOffer({
-        itemOffered: { id: selectedItem.id, name: selectedItem.name },
-        itemRequested: { id: props.item.id, name: props.item.name }
+      modifyOffer({
+        offerId: props.offer.offerId,
+        previousItem: props.offer.itemOffered,
+        newItem: selectedItem
       })
     );
     toggleModal();
   };
 
   return (
-    <Button className="mt-1" onClick={toggleModal} block>
-      Make Offer
+    <div>
+      <DropdownMenu>
+        <DropdownItem onClick={toggleModal}>Modify Offer</DropdownItem>
+        <DropdownItem onClick={handleRecant}>Recant Offer</DropdownItem>
+      </DropdownMenu>
       <Modal isOpen={modal} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>Make your offer</ModalHeader>
+        <ModalHeader toggle={toggleModal}>Modify your offer</ModalHeader>
         <ModalBody>
-          <Form onSubmit={handleConfirm}>
+          <Form onSubmit={handleModify}>
             <FormGroup>
               <Input type="select" onChange={handleSelect} required>
-                <option value="">Select an Item to Offer</option>
+                <option value="">Select a New Item to Offer</option>
                 {userItems.map(item => (
                   <option key={item.id} value={item.id}>
                     {item.name}
@@ -70,7 +81,7 @@ const MakeOffer = props => {
                 </Col>
                 <Col xs="6">
                   <Label>Exchange With</Label>
-                  <Item item={props.item} />
+                  <Item item={itemRequested} />
                 </Col>
               </Row>
             ) : (
@@ -78,7 +89,7 @@ const MakeOffer = props => {
             )}
             <ModalFooter>
               <Button color="primary " type="submit">
-                Confirm
+                Modify
               </Button>
               <Button color="secondary" onClick={toggleModal}>
                 Cancel
@@ -87,8 +98,8 @@ const MakeOffer = props => {
           </Form>
         </ModalBody>
       </Modal>
-    </Button>
+    </div>
   );
 };
 
-export default MakeOffer;
+export default ModifyOffer;

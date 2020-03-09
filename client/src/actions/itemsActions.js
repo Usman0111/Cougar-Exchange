@@ -1,7 +1,7 @@
-import { GET_ITEMS, ADD_ITEM, MODIFY_ITEM, DELETE_ITEM } from "./types";
+import { GET_ALL_ITEMS, ADD_ITEM, MODIFY_ITEM, DELETE_ITEM } from "./types";
 
-export const getItems = () => dispatch => {
-  dispatch({ type: GET_ITEMS });
+export const getAllItems = () => dispatch => {
+  dispatch({ type: GET_ALL_ITEMS });
 };
 
 export const addItem = item => dispatch => {

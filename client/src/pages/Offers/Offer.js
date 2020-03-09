@@ -7,21 +7,30 @@ import {
   DropdownMenu,
   DropdownItem
 } from "reactstrap";
+import { useDispatch } from "react-redux";
 import Item from "../../components/Item";
+import ModifyOffer from "./Modals/ModifyOffer";
+import { acceptOffer, rejectOffer } from "../../actions/offersActions";
 
 const Offer = props => {
   const [dropdownOpen, setOpen] = useState(false);
   const toggle = () => setOpen(!dropdownOpen);
+  const dispatch = useDispatch();
+
+  const handleAccept = () => {
+    dispatch(acceptOffer(props.offer));
+  };
+
+  const handleReject = () => {
+    dispatch(rejectOffer(props.offer));
+  };
 
   const buttons = !props.listNum ? (
     <ButtonDropdown direction="right" isOpen={dropdownOpen} toggle={toggle}>
       <DropdownToggle className="border-light bg-light text-dark mr-2">
         <h5 className="m-0 p-0">...</h5>
       </DropdownToggle>
-      <DropdownMenu>
-        <DropdownItem>Modify Offer</DropdownItem>
-        <DropdownItem>Recant Offer</DropdownItem>
-      </DropdownMenu>
+      <ModifyOffer offer={props.offer} />
     </ButtonDropdown>
   ) : (
     <ButtonDropdown direction="right" isOpen={dropdownOpen} toggle={toggle}>
@@ -29,8 +38,8 @@ const Offer = props => {
         <h5 className="m-0 p-0">...</h5>
       </DropdownToggle>
       <DropdownMenu>
-        <DropdownItem>Accept Offer</DropdownItem>
-        <DropdownItem>Reject Offer</DropdownItem>
+        <DropdownItem onClick={handleAccept}>Accept Offer</DropdownItem>
+        <DropdownItem onClick={handleReject}>Reject Offer</DropdownItem>
       </DropdownMenu>
     </ButtonDropdown>
   );

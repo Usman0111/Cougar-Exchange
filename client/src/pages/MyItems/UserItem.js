@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Button, CardImg, CardSubtitle, CardBody } from "reactstrap";
 import ModifyItem from "./Modals/ModifyItem";
 import { useDispatch } from "react-redux";
-import { deleteItem } from "../../actions/userItemsActions";
+import { deleteItem } from "../../actions/itemsActions";
 
 const UserItem = props => {
   const { id, name } = props.item;
@@ -18,7 +18,6 @@ const UserItem = props => {
       />
       <CardBody className="d-flex flex-column">
         <CardSubtitle>{name}</CardSubtitle>
-        {/* <CardText>{description}</CardText> */}
         <ModifyItem item={props.item} />
         <Button onClick={() => dispatch(deleteItem(id))} block>
           Delete

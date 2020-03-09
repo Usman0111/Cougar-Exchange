@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Row, Col } from "reactstrap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Offer from "./Offer";
+import { getAllOffers } from "../../actions/offersActions";
 
 const OffersList = () => {
   const [listNum, setListNum] = useState(0);
   const { offersYouMade } = useSelector(state => state.offers);
   const { offersYouGot } = useSelector(state => state.offers);
+  const dispatch = useDispatch();
+
+  useEffect(() => dispatch(getAllOffers()), [dispatch]);
 
   const buttonColors = !listNum
     ? ["secondary", "light"]
@@ -32,15 +36,15 @@ const OffersList = () => {
       {!listNum ? (
         <Row>
           {offersYouMade.map(offer => (
-            <Col xs="12" sm="12" md="6">
-              <Offer key={offer.offerId} offer={offer} listNum={listNum} />
+            <Col key={offer.offerId} xs="12" sm="12" md="6">
+              <Offer offer={offer} listNum={listNum} />
             </Col>
           ))}
         </Row>
       ) : (
         <Row>
           {offersYouGot.map(offer => (
-            <Col xs="12" sm="12" md="6">
+            <Col key={offer.offerId} xs="12" sm="12" md="6">
               <Offer key={offer.offerId} offer={offer} listNum={listNum} />
             </Col>
           ))}

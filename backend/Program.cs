@@ -3,8 +3,6 @@ using System.Net;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
-
-
 namespace myApp
 {
 	class Program{

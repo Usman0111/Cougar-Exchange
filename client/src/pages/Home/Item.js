@@ -15,7 +15,6 @@ const Item = props => {
       />
       <CardBody className="d-flex flex-column">
         <CardSubtitle>{name}</CardSubtitle>
-        {/* <CardText>{description}</CardText> */}
         <MakeOffer item={props.item} />
       </CardBody>
     </Card>

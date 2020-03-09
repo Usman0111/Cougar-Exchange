@@ -14,7 +14,6 @@ const Item = props => {
       />
       <CardBody className="d-flex flex-column">
         <CardSubtitle>{name}</CardSubtitle>
-        {/* <CardText>{description}</CardText> */}
       </CardBody>
     </Card>
   );
