@@ -1,31 +1,38 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Cougar_Exchange.Models;
 
 namespace Cougar_Exchange
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public IConfiguration Configuraiton { get; }
 
-        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration) => Configuraiton = configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            //Connecting to the database
+            services.AddDbContextPool<ExchangeContext>(options => options
+               .UseMySql(Configuraiton["Data:CougarExchangeConnection:ConnectionString"]));
 
-            // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
+            services.AddControllers();
+            //for testing
+            services.AddCors(c =>
             {
-                configuration.RootPath = "ClientApp/build";
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
             });
         }
 
@@ -36,30 +43,14 @@ namespace Cougar_Exchange
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-            }
-
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
-
             app.UseRouting();
+            //for testing
+            app.UseCors(options => options.AllowAnyOrigin());
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
-            });
-
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
-                }
+                endpoints.MapControllers();
             });
         }
     }
