@@ -37,6 +37,12 @@
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "type": "npm",
+            "script": "install",
+            "path": "bin/Debug/netcoreapp3.1/client/",
+            "problemMatcher": []
         }
     ]
 }
