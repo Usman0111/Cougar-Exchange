@@ -13,3 +13,14 @@ export const RECANT_OFFER = "RECANT_OFFER";
 export const MODIFY_OFFER = "MODIFY_OFFER";
 export const ACCEPT_OFFER = "ACCEPT_OFFER";
 export const REJECT_OFFER = "REJECT_OFFER";
+
+//Actions for user authentication
+export const LOGIN_REQUEST = "LOGIN_REQUEST";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILED = "LOGIN_FAILED";
+export const LOGOUT = "LOGOUT";
+
+///Actions for user registration
+export const REGISTER_REQUEST = "REGISTER_REQUEST";
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAILED = "REGISTER_FAILED";

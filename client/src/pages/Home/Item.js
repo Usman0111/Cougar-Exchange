@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardImg, CardSubtitle, CardBody } from "reactstrap";
 import MakeOffer from "./Modals/MakeOffer";
 
-const Item = props => {
+const Item = (props) => {
   const { name } = props.item;
 
   return (

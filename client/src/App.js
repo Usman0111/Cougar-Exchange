@@ -4,14 +4,17 @@ import Navbar from "./components/AppNavbar";
 import MyItems from "./pages/MyItems/MyItems";
 import Home from "./pages/Home/Home";
 import Offers from "./pages/Offers/Offers";
+import Login from "./components/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <Router>
       <Navbar />
-      <Route path="/" component={Home} exact />
-      <Route path="/myItems" component={MyItems} />
-      <Route path="/Offers" component={Offers} />
+      <Route path="/login" component={Login} />
+      <ProtectedRoute path="/" component={Home} exact />
+      <ProtectedRoute path="/myItems" component={MyItems} />
+      <ProtectedRoute path="/offers" component={Offers} />
     </Router>
   );
 }
