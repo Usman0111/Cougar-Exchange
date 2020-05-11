@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cougar_Exchange.Controllers {
-    // [Authorize]
+    [Authorize]
     [ApiController]
     [Route ("api/[controller]")]
     public class ItemsController : ControllerBase {

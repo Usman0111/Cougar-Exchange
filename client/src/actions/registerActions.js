@@ -1,7 +1,7 @@
 import { REGISTER_FAILED, REGISTER_REQUEST, REGISTER_SUCCESS } from "./types";
 import axios from "axios";
 
-export const regsiter = (cb, user) => (dispatch) => {
+export const register = (cb, user) => (dispatch) => {
   dispatch({ type: REGISTER_REQUEST });
 
   axios

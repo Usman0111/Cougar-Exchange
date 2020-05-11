@@ -8,23 +8,26 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
 } from "reactstrap";
 import uuid from "uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../../actions/itemsActions";
 
-const AddNewItem = props => {
+const AddNewItem = (props) => {
   const [newItemName, setNewItemName] = useState("");
+  const userId = useSelector((state) => state.auth.user.id);
 
   const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
 
-  const addNewItem = event => {
+  const addNewItem = (event) => {
     dispatch(
       addItem({
         id: uuid.v4(),
-        name: newItemName
+        name: newItemName,
+        trading: true,
+        userId,
       })
     );
     setNewItemName("");
@@ -48,7 +51,7 @@ const AddNewItem = props => {
                 type="text"
                 value={newItemName}
                 placeholder="Enter name"
-                onChange={event => {
+                onChange={(event) => {
                   setNewItemName(event.target.value);
                 }}
                 required

@@ -18,9 +18,13 @@ const Login = (props) => {
   const dispatch = useDispatch();
   const [user, setUser] = useState({ username: "", password: "" });
   const { loading, loginFailed } = useSelector((state) => state.auth);
+  const [registered, setRegister] = useState(
+    useSelector((state) => state.register.registered)
+  );
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setRegister(false);
     dispatch(
       login(() => {
         history.push("/");
@@ -33,6 +37,13 @@ const Login = (props) => {
 
   return (
     <Card className=" mx-auto mt-5 p-2" style={{ width: "400px" }}>
+      {registered ? (
+        <Alert color="success">
+          You have successfully registered please login!
+        </Alert>
+      ) : (
+        <></>
+      )}
       {loginFailed ? (
         <Alert color="danger">Incorrect Username or Password!</Alert>
       ) : (
