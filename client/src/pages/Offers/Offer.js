@@ -5,14 +5,23 @@ import {
   ButtonDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
 } from "reactstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Item from "../../components/Item";
 import ModifyOffer from "./Modals/ModifyOffer";
 import { acceptOffer, rejectOffer } from "../../actions/offersActions";
 
-const Offer = props => {
+const Offer = (props) => {
+  const itemOffered = useSelector((state) =>
+    state.Items.userItems.filter((item) => item.id === props.itemOffered)
+  );
+  const itemRequested = useSelector((state) =>
+    state.Items.allItems.filter((item) => item.id === props.itemRequested)
+  );
+
+  console.log(itemOffered);
+
   const [dropdownOpen, setOpen] = useState(false);
   const toggle = () => setOpen(!dropdownOpen);
   const dispatch = useDispatch();
@@ -55,10 +64,10 @@ const Offer = props => {
       </div>
       <Row className="pb-2">
         <Col className="ml-2">
-          <Item item={props.offer.itemOffered}></Item>
+          <Item item={itemOffered}></Item>
         </Col>
         <Col className="mr-2">
-          <Item item={props.offer.itemRequested}></Item>
+          <Item item={itemRequested}></Item>
         </Col>
       </Row>
     </div>

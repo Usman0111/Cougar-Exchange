@@ -15,7 +15,11 @@ const initialState = {
 const itemsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_ITEMS:
-      return { ...state };
+      return {
+        ...state,
+        allItems: action.payload.filter((item) => item.userId !== action.id),
+        userItems: action.payload.filter((item) => item.userId === action.id),
+      };
     case ADD_ITEM:
       return {
         ...state,

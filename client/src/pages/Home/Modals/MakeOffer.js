@@ -11,13 +11,15 @@ import {
   Row,
   Col,
   Label,
-  Form
+  Form,
 } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { makeOffer } from "../../../actions/offersActions";
+import uuid from "uuid";
 
-const MakeOffer = props => {
-  const { userItems } = useSelector(state => state.Items);
+const MakeOffer = (props) => {
+  const { userItems } = useSelector((state) => state.Items);
+  const userId = useSelector((state) => state.auth.user.id);
   const dispatch = useDispatch();
 
   const [selectedItem, setSelectedItem] = useState();
@@ -28,17 +30,19 @@ const MakeOffer = props => {
     setSelectedItem();
   };
 
-  const handleSelect = e => {
+  const handleSelect = (e) => {
     const id = e.target.value;
-    setSelectedItem(...userItems.filter(item => item.id === id));
+    setSelectedItem(...userItems.filter((item) => item.id === id));
   };
 
-  const handleConfirm = e => {
+  const handleConfirm = (e) => {
     e.preventDefault();
     dispatch(
       makeOffer({
-        itemOffered: { id: selectedItem.id, name: selectedItem.name },
-        itemRequested: { id: props.item.id, name: props.item.name }
+        id: uuid.v4(),
+        itemOffered: selectedItem.id,
+        itemRequested: props.item.id,
+        userId,
       })
     );
     toggleModal();
@@ -54,7 +58,7 @@ const MakeOffer = props => {
             <FormGroup>
               <Input type="select" onChange={handleSelect} required>
                 <option value="">Select an Item to Offer</option>
-                {userItems.map(item => (
+                {userItems.map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.name}
                   </option>

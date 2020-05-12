@@ -1,27 +1,46 @@
 import { GET_ALL_ITEMS, ADD_ITEM, MODIFY_ITEM, DELETE_ITEM } from "./types";
 import axios from "axios";
+import { authHeader, userId } from "./userInfo";
 
 export const getAllItems = () => (dispatch) => {
   axios
     .get("http://localhost:5000/api/items", {
-      headers: {
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("user")).token
-        }`,
-      },
+      headers: authHeader(),
     })
-    .then((response) => console.log(response.data))
-    .catch();
-  dispatch({ type: GET_ALL_ITEMS });
+    .then((response) => {
+      dispatch({ type: GET_ALL_ITEMS, payload: response.data, id: userId() });
+    })
+    .catch((error) => console.log(error));
 };
 
 export const addItem = (item) => (dispatch) => {
-  dispatch({ type: ADD_ITEM, payload: item });
+  axios
+    .post("http://localhost:5000/api/items", item, {
+      headers: authHeader(),
+    })
+    .then((response) => {
+      dispatch({ type: ADD_ITEM, payload: item });
+    })
+    .catch((error) => console.log(error));
 };
 export const modifyItem = (item) => (dispatch) => {
-  dispatch({ type: MODIFY_ITEM, payload: item });
+  axios
+    .put(`http://localhost:5000/api/items/${item.id}`, item, {
+      headers: authHeader(),
+    })
+    .then((response) => {
+      dispatch({ type: MODIFY_ITEM, payload: item });
+    })
+    .catch((error) => console.log(error));
 };
 
 export const deleteItem = (id) => (dispatch) => {
-  dispatch({ type: DELETE_ITEM, payload: id });
+  axios
+    .delete(`http://localhost:5000/api/items/${id}`, {
+      headers: authHeader(),
+    })
+    .then((response) => {
+      dispatch({ type: DELETE_ITEM, payload: id });
+    })
+    .catch((error) => console.log(error));
 };

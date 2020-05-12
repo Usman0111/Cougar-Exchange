@@ -6,8 +6,9 @@ import { getAllOffers } from "../../actions/offersActions";
 
 const OffersList = () => {
   const [listNum, setListNum] = useState(0);
-  const { offersYouMade } = useSelector(state => state.offers);
-  const { offersYouGot } = useSelector(state => state.offers);
+  const { offersYouMade } = useSelector((state) => state.offers);
+  const { offersYouGot } = useSelector((state) => state.offers);
+
   const dispatch = useDispatch();
 
   useEffect(() => dispatch(getAllOffers()), [dispatch]);
@@ -35,16 +36,16 @@ const OffersList = () => {
 
       {!listNum ? (
         <Row>
-          {offersYouMade.map(offer => (
-            <Col key={offer.offerId} xs="12" sm="12" md="6">
+          {offersYouMade.map((offer) => (
+            <Col key={offer.id} xs="12" sm="12" md="6">
               <Offer offer={offer} listNum={listNum} />
             </Col>
           ))}
         </Row>
       ) : (
         <Row>
-          {offersYouGot.map(offer => (
-            <Col key={offer.offerId} xs="12" sm="12" md="6">
+          {offersYouGot.map((offer) => (
+            <Col key={offer.id} xs="12" sm="12" md="6">
               <Offer key={offer.offerId} offer={offer} listNum={listNum} />
             </Col>
           ))}

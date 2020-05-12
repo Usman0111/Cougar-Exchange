@@ -8,13 +8,13 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
 } from "reactstrap";
 import { modifyItem } from "../../../actions/itemsActions";
 import { useDispatch } from "react-redux";
 
-const ModifyItem = props => {
-  const { id, name, description } = props.item;
+const ModifyItem = (props) => {
+  const { name, description } = props.item;
   const [newName, changeName] = useState(name);
   const [newDescription, changeDescription] = useState(description);
 
@@ -22,8 +22,8 @@ const ModifyItem = props => {
 
   const dispatch = useDispatch();
 
-  const handleModify = event => {
-    dispatch(modifyItem({ id, name: newName, description: newDescription }));
+  const handleModify = (event) => {
+    dispatch(modifyItem({ ...props.item, name: newName }));
     toggle();
     event.preventDefault();
   };
@@ -44,7 +44,7 @@ const ModifyItem = props => {
                 name="name"
                 id="name"
                 placeholder="Enter name"
-                onChange={event => {
+                onChange={(event) => {
                   changeName(event.target.value);
                 }}
                 required
@@ -58,7 +58,7 @@ const ModifyItem = props => {
                 name="description"
                 id="description"
                 placeholder="Enter description"
-                onChange={event => {
+                onChange={(event) => {
                   changeDescription(event.target.value);
                 }}
                 required
