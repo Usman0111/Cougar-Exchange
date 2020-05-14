@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardImg, CardSubtitle, CardBody } from "reactstrap";
 
-const Item = props => {
+const Item = (props) => {
   const { name } = props.item;
 
   return (

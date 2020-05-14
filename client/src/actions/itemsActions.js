@@ -2,13 +2,14 @@ import { GET_ALL_ITEMS, ADD_ITEM, MODIFY_ITEM, DELETE_ITEM } from "./types";
 import axios from "axios";
 import { authHeader, userId } from "./userInfo";
 
-export const getAllItems = () => (dispatch) => {
+export const getAllItems = (cb) => (dispatch) => {
   axios
     .get("http://localhost:5000/api/items", {
       headers: authHeader(),
     })
     .then((response) => {
       dispatch({ type: GET_ALL_ITEMS, payload: response.data, id: userId() });
+      cb();
     })
     .catch((error) => console.log(error));
 };
@@ -43,4 +44,36 @@ export const deleteItem = (id) => (dispatch) => {
       dispatch({ type: DELETE_ITEM, payload: id });
     })
     .catch((error) => console.log(error));
+};
+
+export const toggleItemStatus = (id) => (dispatch, getState) => {
+  const Item = [
+    ...getState().Items.allItems,
+    ...getState().Items.userItems,
+  ].filter((item) => item.id === id)[0];
+  dispatch(modifyItem({ ...Item, trading: !Item.trading }));
+};
+
+export const exchangeItems = (offer) => (dispatch, getState) => {
+  const ItemOffered = [
+    ...getState().Items.allItems,
+    ...getState().Items.userItems,
+  ].filter((item) => item.id === offer.itemOffered)[0];
+
+  const ItemRequested = [
+    ...getState().Items.allItems,
+    ...getState().Items.userItems,
+  ].filter((item) => item.id === offer.itemRequested)[0];
+
+  console.log(ItemOffered);
+  console.log(ItemRequested);
+
+  console.log(offer);
+  dispatch(
+    modifyItem({ ...ItemOffered, userId: offer.otherId, trading: false })
+  );
+
+  dispatch(
+    modifyItem({ ...ItemRequested, userId: offer.userId, trading: false })
+  );
 };

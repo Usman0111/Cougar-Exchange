@@ -43,6 +43,7 @@ const MakeOffer = (props) => {
         itemOffered: selectedItem.id,
         itemRequested: props.item.id,
         userId,
+        otherId: props.item.userId,
       })
     );
     toggleModal();
@@ -58,11 +59,13 @@ const MakeOffer = (props) => {
             <FormGroup>
               <Input type="select" onChange={handleSelect} required>
                 <option value="">Select an Item to Offer</option>
-                {userItems.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
+                {userItems
+                  .filter((item) => !item.trading)
+                  .map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
               </Input>
             </FormGroup>
 

@@ -6,7 +6,6 @@ import {
   ACCEPT_OFFER,
   REJECT_OFFER,
 } from "../actions/types";
-import uuid from "uuid";
 
 const initialState = {
   offersYouMade: [],
@@ -21,27 +20,27 @@ const offersReducer = (state = initialState, action) => {
         offersYouMade: action.payload.filter(
           (offer) => offer.userId === action.id
         ),
+        offersYouGot: action.payload.filter(
+          (offer) => offer.otherId === action.id
+        ),
       };
     case ADD_OFFER:
       return {
         ...state,
-        offersYouMade: [
-          ...state.offersYouMade,
-          { offerId: uuid.v4(), ...action.payload },
-        ],
+        offersYouMade: [...state.offersYouMade, action.payload],
       };
     case RECANT_OFFER:
       return {
         ...state,
         offersYouMade: state.offersYouMade.filter(
-          (offer) => offer.offerId !== action.payload
+          (offer) => offer.id !== action.payload
         ),
       };
     case MODIFY_OFFER:
       return {
         ...state,
         offersYouMade: state.offersYouMade.map((offer) =>
-          offer.offerId === action.payload.offerId
+          offer.id === action.payload.id
             ? { ...offer, itemOffered: action.payload.newItem }
             : offer
         ),
@@ -50,14 +49,14 @@ const offersReducer = (state = initialState, action) => {
       return {
         ...state,
         offersYouGot: state.offersYouGot.filter(
-          (offer) => offer.offerId !== action.payload
+          (offer) => offer.id !== action.payload
         ),
       };
     case REJECT_OFFER:
       return {
         ...state,
         offersYouGot: state.offersYouGot.filter(
-          (offer) => offer.offerId !== action.payload
+          (offer) => offer.id !== action.payload
         ),
       };
     default:

@@ -13,14 +13,16 @@ import {
   Label,
   Form,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
 } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { recantOffer, modifyOffer } from "../../../actions/offersActions";
 
-const ModifyOffer = props => {
-  const { userItems } = useSelector(state => state.Items);
-  const { itemRequested } = props.offer;
+const ModifyOffer = (props) => {
+  const { userItems } = useSelector((state) => state.Items);
+  const itemRequested = useSelector((state) => state.Items.allItems).filter(
+    (item) => item.id === props.offer.itemRequested
+  )[0];
   const dispatch = useDispatch();
 
   const [selectedItem, setSelectedItem] = useState();
@@ -31,22 +33,22 @@ const ModifyOffer = props => {
     setSelectedItem();
   };
 
-  const handleSelect = e => {
+  const handleSelect = (e) => {
     const id = e.target.value;
-    setSelectedItem(...userItems.filter(item => item.id === id));
+    setSelectedItem(...userItems.filter((item) => item.id === id));
   };
 
   const handleRecant = () => {
     dispatch(recantOffer(props.offer));
   };
 
-  const handleModify = e => {
+  const handleModify = (e) => {
     e.preventDefault();
     dispatch(
       modifyOffer({
-        offerId: props.offer.offerId,
+        id: props.offer.id,
         previousItem: props.offer.itemOffered,
-        newItem: selectedItem
+        newItem: selectedItem.id,
       })
     );
     toggleModal();
@@ -65,11 +67,13 @@ const ModifyOffer = props => {
             <FormGroup>
               <Input type="select" onChange={handleSelect} required>
                 <option value="">Select a New Item to Offer</option>
-                {userItems.map(item => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
+                {userItems
+                  .filter((item) => !item.trading)
+                  .map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
               </Input>
             </FormGroup>
 

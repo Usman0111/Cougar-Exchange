@@ -1,10 +1,7 @@
 import {
   GET_ALL_OFFERS,
   ADD_OFFER,
-  ADD_ITEM,
-  DELETE_ITEM,
   HIDE_ITEM,
-  UNHIDE_ITEM,
   RECANT_OFFER,
   MODIFY_OFFER,
   ACCEPT_OFFER,
@@ -12,21 +9,29 @@ import {
 } from "./types";
 import axios from "axios";
 import { authHeader, userId } from "./userInfo";
-import { getAllItems } from "./itemsActions";
+import { getAllItems, toggleItemStatus, exchangeItems } from "./itemsActions";
 
 export const getAllOffers = () => (dispatch) => {
-  dispatch(getAllItems());
-  axios
-    .get("http://localhost:5000/api/offers", {
-      headers: authHeader(),
+  dispatch(
+    getAllItems(() => {
+      axios
+        .get("http://localhost:5000/api/offers", {
+          headers: authHeader(),
+        })
+        .then((response) => {
+          dispatch({
+            type: GET_ALL_OFFERS,
+            payload: response.data,
+            id: userId(),
+          });
+        })
+        .catch((error) => console.log(error));
     })
-    .then((response) => {
-      dispatch({ type: GET_ALL_OFFERS, payload: response.data, id: userId() });
-    })
-    .catch((error) => console.log(error));
+  );
 };
 
-export const makeOffer = (offer) => (dispatch) => {
+export const makeOffer = (offer) => (dispatch, getState) => {
+  //adding new offer
   axios
     .post("http://localhost:5000/api/offers", offer, {
       headers: authHeader(),
@@ -36,30 +41,72 @@ export const makeOffer = (offer) => (dispatch) => {
     })
     .catch((error) => console.log(error));
 
-  dispatch({ type: DELETE_ITEM, payload: offer.itemOffered });
+  //chaning trading status of the items
+  dispatch(toggleItemStatus(offer.itemOffered));
+  dispatch(toggleItemStatus(offer.itemRequested));
   dispatch({ type: HIDE_ITEM, payload: offer.itemRequested });
 };
 
-export const recantOffer = (offer) => (dispatch) => {
-  dispatch({ type: RECANT_OFFER, payload: offer.offerId });
-  dispatch({ type: ADD_ITEM, payload: offer.itemOffered });
-  dispatch({ type: UNHIDE_ITEM, payload: offer.itemRequested });
+export const recantOffer = (offer) => (dispatch, getState) => {
+  axios
+    .delete(`http://localhost:5000/api/offers/${offer.id}`, {
+      headers: authHeader(),
+    })
+    .then((response) => {
+      dispatch({ type: RECANT_OFFER, payload: offer.id });
+    })
+    .catch((error) => console.log(error));
+
+  //chaning trading status of the items
+  dispatch(toggleItemStatus(offer.itemOffered));
+  dispatch(toggleItemStatus(offer.itemRequested));
 };
 
-export const modifyOffer = (change) => (dispatch) => {
-  dispatch({ type: MODIFY_OFFER, payload: change });
-  dispatch({ type: ADD_ITEM, payload: change.previousItem });
-  dispatch({ type: DELETE_ITEM, payload: change.newItem.id });
+export const modifyOffer = (change) => (dispatch, useState) => {
+  const Offer = useState().offers.offersYouMade.filter(
+    (offer) => offer.id === change.id
+  )[0];
+
+  axios
+    .put(
+      `http://localhost:5000/api/offers/${Offer.id}`,
+      { ...Offer, itemOffered: change.newItem },
+      {
+        headers: authHeader(),
+      }
+    )
+    .then((response) => {
+      dispatch({ type: MODIFY_OFFER, payload: change });
+    })
+    .catch((error) => console.log(error));
+  //chaning trading status of the items
+  dispatch(toggleItemStatus(change.previousItem));
+  dispatch(toggleItemStatus(change.newItem));
 };
 
 export const acceptOffer = (offer) => (dispatch) => {
-  dispatch({ type: ACCEPT_OFFER, payload: offer.offerId });
-  dispatch({ type: ADD_ITEM, payload: offer.itemOffered });
-  dispatch({ type: UNHIDE_ITEM, payload: offer.itemRequested });
+  dispatch(exchangeItems(offer));
+  axios
+    .delete(`http://localhost:5000/api/offers/${offer.id}`, {
+      headers: authHeader(),
+    })
+    .then((response) => {
+      dispatch({ type: ACCEPT_OFFER, payload: offer.id });
+    })
+    .catch((error) => console.log(error));
 };
 
 export const rejectOffer = (offer) => (dispatch) => {
-  dispatch({ type: REJECT_OFFER, payload: offer.offerId });
-  dispatch({ type: ADD_ITEM, payload: offer.itemRequested });
-  dispatch({ type: UNHIDE_ITEM, payload: offer.itemOffered });
+  axios
+    .delete(`http://localhost:5000/api/offers/${offer.id}`, {
+      headers: authHeader(),
+    })
+    .then((response) => {
+      dispatch({ type: REJECT_OFFER, payload: offer.id });
+    })
+    .catch((error) => console.log(error));
+
+  //chaning trading status of the items
+  dispatch(toggleItemStatus(offer.itemOffered));
+  dispatch(toggleItemStatus(offer.itemRequested));
 };

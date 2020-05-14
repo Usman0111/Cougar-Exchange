@@ -26,7 +26,7 @@ const AddNewItem = (props) => {
       addItem({
         id: uuid.v4(),
         name: newItemName,
-        trading: true,
+        trading: false,
         userId,
       })
     );

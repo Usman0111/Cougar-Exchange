@@ -4,5 +4,6 @@ namespace Cougar_Exchange.Models {
         public string ItemOffered { get; set; }
         public string ItemRequested { get; set; }
         public int UserId { get; set; } //user who made the offer
+        public int OtherId { get; set; } //user who got the offer
     }
 }

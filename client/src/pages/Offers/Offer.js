@@ -13,14 +13,17 @@ import ModifyOffer from "./Modals/ModifyOffer";
 import { acceptOffer, rejectOffer } from "../../actions/offersActions";
 
 const Offer = (props) => {
-  const itemOffered = useSelector((state) =>
-    state.Items.userItems.filter((item) => item.id === props.itemOffered)
-  );
-  const itemRequested = useSelector((state) =>
-    state.Items.allItems.filter((item) => item.id === props.itemRequested)
-  );
+  const Items = [
+    ...useSelector((state) => state.Items.userItems),
+    ...useSelector((state) => state.Items.allItems),
+  ];
 
-  console.log(itemOffered);
+  const itemOffered = Items.filter(
+    (item) => item.id === props.offer.itemOffered
+  )[0];
+  const itemRequested = Items.filter(
+    (item) => item.id === props.offer.itemRequested
+  )[0];
 
   const [dropdownOpen, setOpen] = useState(false);
   const toggle = () => setOpen(!dropdownOpen);

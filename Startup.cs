@@ -103,20 +103,17 @@ namespace Cougar_Exchange {
             });
 
             // Run both frontend and backend
-            // app.UseEndpoints(endpoints =>
-            // {
-            //     endpoints.MapControllerRoute(
+            // app.UseEndpoints (endpoints => {
+            //     endpoints.MapControllerRoute (
             //         name: "default",
             //         pattern: "{controller}/{action=Index}/{id?}");
             // });
 
-            // app.UseSpa(spa =>
-            // {
+            // app.UseSpa (spa => {
             //     spa.Options.SourcePath = "client";
 
-            //     if (env.IsDevelopment())
-            //     {
-            //         spa.UseReactDevelopmentServer(npmScript: "start");
+            //     if (env.IsDevelopment ()) {
+            //         spa.UseReactDevelopmentServer (npmScript: "start");
             //     }
             // });
         }
